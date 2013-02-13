@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Comptatible" content="IE=edge,chrome=1">
+	<title>Gestions d'articles avec Backbone JS - Atinux.fr</title>
+	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/css/gh-buttons.css">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<meta name="description" content="Auteur : Sébastien Chopin; Un exemple d'application fait avec Backbone JS utilisant le LocalStorage du navigateur afin gérer ses articles. Application créé par Sébastien Chopin pour http://www.atinux.fr" />
+</head>
+<body>
+	<a href="https://github.com/Atinux/backbone-articles"><img style="position: absolute; top: 0; left: 30px; border: 0;" src="https://github.com/jamesflorentino/fork-ribbons/raw/master/ribbons/white-black.png" alt="Fork me on GitHub"></a>
+	<div id="body" class="container">
+		<div id="content"><div style="text-align:center;"><img src="assets/images/loader.gif" alt="Loading..." /></div></div>
+	</div>
+	<div class="author">Créé avec <a href="http://documentcloud.github.com/backbone/">BackboneJS</a> et <a href="http://twitter.github.com/bootstrap/">BootStrap</a> par 	<a href="http://www.twitter.com/Atinux">Sébastien Chopin</a> pour <a href="http://www.atinux.fr">Atinux.fr</a></div>
+
+	<script type="text/template" id="viewArticles">
+		<a href="#new" class="button primary icon add" style="float:right;margin-top:5px;">Ajouter</a>
+		<h2>Liste des articles</h2>
+		<div id="articles" style="margin-top:10px;border-top:1px #CCC solid;padding-top:5px;">
+			<% if (articles && articles.length === 0) {
+				%><div style="margin-top:10px;">Il n'y a pas d'articles pour le moment.</div><%
+			} %>
+		</div>
+	</script>
+	<script type="text/template" id="viewArticleEntry">
+		<div class="article" id="article<%= article.cid %>">
+			<div class="affSupp">
+				<div class="button-group" style="float:right;padding-top:4px;padding-right:5px;">
+					<button class="button closeAffSupp icon arrowup">Annuler</button><button class="button primary danger icon trash deleteEntry">Supprimer</button>
+				</div>
+				<h5 style="color:white;padding-left:10px;">Supprimer <%= article.titre %> ?</h5>
+			</div>
+			<div style="padding:5px;padding-left:10px;">
+				<div class="button-group" style="float:right;">
+					<a href="#edit/<%= article.cid %>" class="button icon edit just-icon"></a>
+					<a class="button icon danger remove just-icon btnSupp"></a>
+				</div>
+				<a href="#<%= article.cid %>" title="Voir l'article">
+					<h3><%= article.titre %></h3>
+					<p style="color:grey;"><%= article.contenu %></p>
+				</a>
+			</div>
+		</div>
+	</script>
+	<script type="text/template" id="viewArticle">
+		<% var article = model.toJSON(); %>
+		<h2><%= article.titre %></h2>
+		<p style="margin-top:5px;border-top:1px #CCC solid;padding:10px 0;color:grey;border-bottom:1px #CCC solid;">
+			<%= article.contenu %>
+		</p>
+		<a href="#edit/<%= model.cid %>" class="button primary icon edit" style="float:right;">Editer l'article</button>
+		<a href="#" class="button" style="margin:0;">Retour</a>
+	</script>
+	<script type="text/template" id="addOrEditArticle">
+		<h2><%= (article ? 'Éditer' : 'Ajouter') %> un article</h2>
+		<div style="margin-top:10px;border-top:1px #CCC solid;padding-top:15px;">
+			<form class="form">
+			<b style="font-size:1.1em;">Titre : </b><br/><input type="text" name="titre" value="<%= (article ? article.titre : '') %>" class="field" style="width:100%;margin-top:5px;margin-bottom:8px;"/><br/>
+			<b style="font-size:1.1em;">Contenu : </b><br/>
+			<textarea name="contenu" class="field" style="width:100%;margin-top:5px;margin-bottom:10px;" rows="5"><%= (article ? article.contenu : '') %></textarea>
+			<button type="submit" class="button primary disabled icon <%= (article ? 'edit' : 'add') %>" style="float:right;"><%= (article ? 'Editer' : 'Ajouter') %> l'article</button>
+			<a href="#" class="button" style="margin:0;">Retour</a>
+			</form>
+		</div>
+	</script>
+	<!-- Thirt-Party Libraries (Order matters) -->
+	<script type="text/javascript" src="assets/js/libs/jquery.js"></script>
+	<script type="text/javascript" src="assets/js/libs/underscore.js"></script>
+	<script type="text/javascript" src="assets/js/libs/backbone.js"></script>
+	<script type="text/javascript" src="assets/js/libs/backbone-localstorage.js"></script>
+	<script type="text/javascript" src="assets/js/libs/helpers.js"></script>
+	<script type="text/javascript" src="assets/js/libs/jquery-effects.js"></script>
+	
+	<!-- Application core (Order matters) -->
+	<script type="text/javascript" src="src/app.js"></script>
+	
+	<!-- Modules (Order doesn't matter) -->
+	<script type="text/javascript" src="src/modules/views.js"></script>
+	<script type="text/javascript" src="src/modules/models.js"></script>
+	<script type="text/javascript" src="src/modules/routers.js"></script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-27481530-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</body>
+</html>
